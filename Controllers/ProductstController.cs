@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using dotnet_hero.Data;
 
 namespace dotnet_hero.Controllers
 {
@@ -12,6 +13,17 @@ namespace dotnet_hero.Controllers
     [Route("[controller]")] //https://localhost:5001/Products (dev)
     public class ProductsController : ControllerBase //inheritance
     {
+
+        //Connect Database istock
+        public ProductsController(DatabaseContext databaseContext)//create constuctor
+        {
+            var getProducts = databaseContext.Products.ToList();
+            // var GetProducts = seclct * from Product
+
+            var resultSize = getProducts.Count();
+            // ดูจำนวนข้อมูลใน tabel Product
+        }
+
         [HttpGet("IActionResult")]//https://localhost:5001/Products/IActionResult
         public IActionResult GetProductsIActionResult()
         {
@@ -83,8 +95,9 @@ namespace dotnet_hero.Controllers
             {
                 return BadRequest();//แสดง status 400
             }
-            //ผู้ใช้งานป้อน 1150 
-            return NoContent();//แสดง status 204 ทำการลบเรียบร้อย
+            //ผู้ใช้งานป้อน 1150 //ใช้งานได้ทั้ง 2 method
+            //return NoContent();//แสดง status 204 ทำการลบเรียบร้อย 
+            return Unauthorized();//แสดง status 401 ทำการลบเรียบร้อย
         }
 
         // [HttpGet("ActionResult")]
